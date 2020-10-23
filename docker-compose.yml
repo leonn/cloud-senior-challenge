@@ -36,6 +36,8 @@ services:
       ME_CONFIG_MONGODB_AUTH_PASSWORD: admin
     depends_on:
       - mongo
+    links:
+      - mongo
 
   jaeger:
     container_name: jaeger

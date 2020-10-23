@@ -70,30 +70,6 @@ paths:
             $ref: '#/definitions/Exchange'
         '400':
           description: Invalid Exchange rate parameters
-    delete:
-      tags:
-        - Exchange
-      summary: Delete Exchange
-      description: This can only be done by the logged in Exchange.
-      operationId: deleteExchange
-      produces:
-        - application/json
-      parameters:
-        - name: date
-          in: path
-          description: date in the format MM-DD-YYYY
-          required: true
-          pattern: '^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d{2}$'
-          type: string
-        - name: currency
-          in: path
-          description: currency it supports  ['dolar']
-          required: true
-          pattern: '^(dolar)$'
-          type: string
-      responses:
-        '400':
-          description: Invalid Exchange rate parameters
 definitions:
   Exchange:
     type: object
@@ -111,17 +87,8 @@ definitions:
         pattern: '^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d{2}$'
         format: date
       buyRate:
-        type: boolean
+        type: number
+        format: double
       sellRate:
-        type:   array
-        items:
-          type: object
-          properties:
-            id:
-              type: integer
-            type:
-              type: string
-            last_seen:
-              type: string
-            pushToken:
-              type: string
+        type: number
+        format: double
