@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  quarkus-build:
+    build:
+      context: .
+      dockerfile: api/src/main/docker/Dockerfile.native
+    depends_on:
+      - mongo-express
+    ports:
+      - "8080:8080"
+
+  mongo:
+    container_name: mongo
+    image: mongo:4.0
+    environment:
+      MONGODB_DATABASE: exchange
+      MONGODB_USER: admin
+      MONGODB_PASS: admin
+    ports:
+      - "27017:27017"
+      - "28017:28017"
+
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: '"false"'
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_AUTH_DATABASE: exchange
+      ME_CONFIG_MONGODB_AUTH_USERNAME: admin
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: admin
+    depends_on:
+      - mongo
+    links:
+      - mongo

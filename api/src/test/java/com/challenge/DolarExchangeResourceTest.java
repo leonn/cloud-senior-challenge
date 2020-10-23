@@ -12,7 +12,7 @@ public class DolarExchangeResourceTest {
     @Test
     public void testHelloEndpoint() {
         given()
-          .when().get("/")
+          .when().get("/dolarExchange")
           .then()
              .statusCode(200)
              .body(is("hello"));
