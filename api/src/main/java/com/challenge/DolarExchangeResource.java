@@ -8,8 +8,10 @@ import javax.ws.rs.Produces;
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+// import com.squareup.okhttp.OkHttpClient;
 
 @Path("/exchange/dolar")
+@Produces(MediaType.APPLICATION_JSON)
 public class DolarExchangeResource {
 
     @Inject CurrencyService currencyService;
@@ -23,7 +25,26 @@ public class DolarExchangeResource {
             return Response.status(400).build();
         }
 
-        return Response.ok("hello").build();
+        // OkHttpClient client = new OkHttpClient().newBuilder().build();
+        // Request request = new Request.Builder() 
+        //     .url("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao='10-22-2020'&$format=json")
+        //     .method("GET", null)
+        //     .build();
+
+        // Response response = client.newCall(request).execute();
+
+        Currency c = new Currency();
+        
+        /// TODO parse http response and fill data
+        // c.setTimestamp();
+        // c.setExchangeRateDate();
+        // c.setExchangeRateDatetime();
+        // c.setSellRate();
+        // c.setBuyRate();
+        // c.set();
+        currencyService.add(currency, "dolar");
+
+        return Response.ok(currency).build();
     }
 
     @POST
@@ -35,6 +56,6 @@ public class DolarExchangeResource {
             return Response.status(400).build();
         }
 
-        return Response.ok("hello").build();
+        return Response.ok(currencyService.list("dolar")).build();
     }
 }

@@ -16,6 +16,7 @@ public class DolarExchangeResourceTest {
           .then()
              .statusCode(400);
     }
+
     @Test
     public void testWrongParameterGet() {
         given()
@@ -24,4 +25,19 @@ public class DolarExchangeResourceTest {
              .statusCode(400);
     }
 
+    @Test
+    public void testEmptyRetreive() {
+        given()
+          .when().post("/exchange/dolar/10-22-2020")
+          .then()
+             .statusCode(200);
+    }
+
+    @Test
+    public void testEmptyData() {
+        given()
+          .when().get("/exchange/dolar/10-22-2020")
+          .then()
+             .statusCode(200);
+    }
 }
