@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: api/src/main/docker/Dockerfile.native
     depends_on:
-      - mongo-express
+      - mongo
     ports:
       - "8080:8080"
 
@@ -36,5 +36,28 @@ services:
       ME_CONFIG_MONGODB_AUTH_PASSWORD: admin
     depends_on:
       - mongo
-    links:
-      - mongo
+
+  jaeger:
+    container_name: jaeger
+    image: jaegertracing/all-in-one:1.17
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "14250:14250"
+      - "9411:9411"
+
+  prometheus:
+    container_name: prometheus
+    build:
+      context: .
+      dockerfile: Dockerfile.prometheus
+    network_mode: "host"
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:6.5.0
+    network_mode: "host"
