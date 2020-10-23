@@ -10,12 +10,18 @@ import static org.hamcrest.CoreMatchers.is;
 public class DolarExchangeResourceTest {
 
     @Test
-    public void testHelloEndpoint() {
+    public void testWrongParameterPost() {
         given()
-          .when().get("/dolarExchanges")
+          .when().post("/exchange/dolar/2020-10-22")
           .then()
-             .statusCode(200)
-             .body(is("hello"));
+             .statusCode(400);
+    }
+    @Test
+    public void testWrongParameterGet() {
+        given()
+          .when().get("/exchange/dolar/2020-10-22")
+          .then()
+             .statusCode(400);
     }
 
 }
