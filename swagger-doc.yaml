@@ -1,0 +1,127 @@
+swagger: '2.0'
+info:
+  description: This is the Swagger Documentation for Currency Exchange Rate's Application.
+  version: 1.0.0
+  title: Currency Exchange Rate
+  contact:
+    email: leonn.paiva@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: localhost:8080
+schemes:
+  - http
+tags:
+  - name: Exchange
+    description: Exchange rate Operations
+paths:
+  /exchange/{currency}/{date}:
+    post:
+      tags:
+        - Exchange
+      summary: Retrieve exchange rate by date from dadosabertos API
+      description: 'Retrieve currency exchange rate from dadosabertos API'
+      produces:
+        - application/json
+      parameters:
+        - name: date
+          in: path
+          description: date in the format MM-DD-YYYY
+          required: true
+          pattern: '^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d{2}$'
+          type: string
+        - name: currency
+          in: path
+          description: currency it supports  ['dolar']
+          required: true
+          pattern: '^(dolar)$'
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Exchange'
+        '400':
+          description: Invalid Exchange rate parameters
+    get:
+      tags:
+        - Exchange
+      summary: Get stored exchange rate by date
+      description: 'Retrieve stored currency exchange rate by date'
+      produces:
+        - application/json
+      parameters:
+        - name: date
+          in: path
+          description: date in the format MM-DD-YYYY
+          required: true
+          pattern: '^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d{2}$'
+          type: string
+        - name: currency
+          in: path
+          description: currency it supports  ['dolar']
+          required: true
+          pattern: '^(dolar)$'
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Exchange'
+        '400':
+          description: Invalid Exchange rate parameters
+    delete:
+      tags:
+        - Exchange
+      summary: Delete Exchange
+      description: This can only be done by the logged in Exchange.
+      operationId: deleteExchange
+      produces:
+        - application/json
+      parameters:
+        - name: date
+          in: path
+          description: date in the format MM-DD-YYYY
+          required: true
+          pattern: '^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d{2}$'
+          type: string
+        - name: currency
+          in: path
+          description: currency it supports  ['dolar']
+          required: true
+          pattern: '^(dolar)$'
+          type: string
+      responses:
+        '400':
+          description: Invalid Exchange rate parameters
+definitions:
+  Exchange:
+    type: object
+    properties:
+      id:
+        type: string
+      timestamp:
+        type: integer
+        format: int64
+      exchangeRateDatetime:
+        type: string
+        format: dateTime
+      exchangeRateDate:
+        type: string
+        pattern: '^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d{2}$'
+        format: date
+      buyRate:
+        type: boolean
+      sellRate:
+        type:   array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            type:
+              type: string
+            last_seen:
+              type: string
+            pushToken:
+              type: string
